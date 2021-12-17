@@ -19,10 +19,5 @@ public class PathCheckController {
 
     public void run() {
         Initializer.init();
-        List<Line> lines = LineRepository.lines();
-        for (Line line : lines) {
-            System.out.println(line.getName());
-            line.showAllSection();
-        }
     }
 }

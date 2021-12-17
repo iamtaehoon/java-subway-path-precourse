@@ -23,14 +23,4 @@ public class Line {
         stations.add(new Station(stationName));
         sections.add(section);
     }
-
-    public void showAllSection() {
-        System.out.println(stations.get(0).getName());
-        for (Section section : sections) {
-            System.out.println(section);
-            System.out.println(stations.get(sections.indexOf(section)+1).getName());
-        }
-    }
-
-    // 추가 기능 구현
 }
