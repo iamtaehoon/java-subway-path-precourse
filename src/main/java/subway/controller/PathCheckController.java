@@ -1,13 +1,12 @@
 package subway.controller;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
+
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import subway.Initializer;
 import subway.code.MainCode;
-import subway.domain.Line;
-import subway.repository.LineRepository;
+import subway.code.RouteCode;
 import subway.service.PathCheckService;
 import subway.view.InputView;
 
@@ -26,7 +25,24 @@ public class PathCheckController {
         if (mainCode == MainCode.QUIT) {
             System.out.println("종료 로직 만들어야 함.");
         }
+        determineRouteCriteria();
 
+    }
+
+    private DijkstraShortestPath determineRouteCriteria() {
+        RouteCode routeCode = enterRouteCriteria();
+        return routeCode.makeDijkstra();
+    }
+
+    private RouteCode enterRouteCriteria() {
+        RouteCode routeCode = null;
+        try {
+            routeCode = RouteCode.find(inputView.enterRouteCriteria());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            enterRouteCriteria();
+        }
+        return routeCode;
     }
 
     private void enterMainFunction() {
