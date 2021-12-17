@@ -7,6 +7,8 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import subway.Initializer;
 import subway.code.MainCode;
 import subway.code.RouteCode;
+import subway.domain.Station;
+import subway.repository.StationRepository;
 import subway.service.PathCheckService;
 import subway.view.InputView;
 
@@ -26,7 +28,27 @@ public class PathCheckController {
             System.out.println("종료 로직 만들어야 함.");
         }
         DijkstraShortestPath dijkstraShortestPath = determineRouteCriteria();
+        Station startStation = enterStartStation();
+        Station endStation = enterEndStation(startStation);
 
+    }
+
+    private Station enterEndStation(Station startStation) {
+        try {
+            return pathCheckService.putEndStation(startStation, inputView.enterEndStation());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return enterEndStation(startStation);
+        }
+    }
+
+    private Station enterStartStation() {
+        try {
+            return pathCheckService.putStartStation(inputView.enterStartStation());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return enterStartStation();
+        }
     }
 
     private DijkstraShortestPath determineRouteCriteria() {
@@ -38,14 +60,12 @@ public class PathCheckController {
     }
 
     private RouteCode enterRouteCriteria() {
-        RouteCode routeCode = null;
         try {
-            routeCode = RouteCode.find(inputView.enterRouteCriteria());
+            return RouteCode.find(inputView.enterRouteCriteria());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            enterRouteCriteria();
+            return enterRouteCriteria();
         }
-        return routeCode;
     }
 
     private void enterMainFunction() {

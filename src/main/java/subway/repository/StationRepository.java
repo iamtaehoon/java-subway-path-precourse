@@ -1,5 +1,7 @@
 package subway.repository;
 
+import static subway.ErrorMessage.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,5 +26,12 @@ public class StationRepository {
 
     public static void deleteAll() {
         stations.clear();
+    }
+
+    public static Station find(String enterStartStation) {
+        return stations.stream()
+            .filter(station -> station.getName().equals(enterStartStation))
+            .findAny()
+            .orElseThrow(() -> new IllegalArgumentException(NO_OBJECT_ERROR));
     }
 }
