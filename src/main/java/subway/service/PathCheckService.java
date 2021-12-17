@@ -45,7 +45,7 @@ public class PathCheckService {
         return shortestPathStationNames;
     }
 
-    public Result calculate(List<String> stationsNameInShortestPath) { //calculate 이름 바꾸기.
+    public Result calculateResult(List<String> stationsNameInShortestPath) { //calculate 이름 바꾸기.
         int timeSum = 0;
         int distanceSum = 0;
         String startStationName = shortestPathStationNames.get(0);

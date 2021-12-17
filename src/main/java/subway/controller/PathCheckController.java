@@ -1,20 +1,13 @@
 package subway.controller;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.graph.DefaultWeightedEdge;
 
 import subway.Initializer;
 import subway.code.MainCode;
 import subway.code.RouteCode;
-import subway.domain.Dijkstra;
 import subway.domain.Result;
 import subway.domain.Station;
-import subway.repository.StationRepository;
 import subway.service.PathCheckService;
 import subway.view.InputView;
 import subway.view.OutputView;
@@ -38,7 +31,7 @@ public class PathCheckController {
                 return;
             }
             List<String> stationsNameInShortestPath = findShortestPath(routeCode);
-            Result result = pathCheckService.calculate(stationsNameInShortestPath);
+            Result result = pathCheckService.calculateResult(stationsNameInShortestPath);
             OutputView.showResult(result);
             stationsNameInShortestPath.clear();
         }
