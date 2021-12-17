@@ -30,14 +30,18 @@ public class PathCheckController {
     }
 
     public void run() {
-        determineMainFunction();
-        RouteCode routeCode = determineRouteCriteria();
-        if (routeCode == RouteCode.BACK) {
-            run();
+        while (mainCode != MainCode.QUIT) {
+            determineMainFunction();
+            RouteCode routeCode = determineRouteCriteria();
+            if (routeCode == RouteCode.BACK) {
+                run();
+                return;
+            }
+            List<String> stationsNameInShortestPath = findShortestPath(routeCode);
+            Result result = pathCheckService.calculate(stationsNameInShortestPath);
+            OutputView.showResult(result);
+            stationsNameInShortestPath.clear();
         }
-        List<String> stationsNameInShortestPath = findShortestPath(routeCode);
-        Result result = pathCheckService.calculate(stationsNameInShortestPath);
-        OutputView.showResult(result);
     }
 
     private List<String> findShortestPath(RouteCode routeCode) {
