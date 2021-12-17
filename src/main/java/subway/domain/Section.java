@@ -7,6 +7,7 @@ import subway.code.RouteCode;
 public class Section {
     private int distance;
     private int time;
+
     public Section(int distance, int time) {
         this.distance = distance;
         this.time = time;

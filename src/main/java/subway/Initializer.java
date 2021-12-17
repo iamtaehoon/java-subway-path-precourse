@@ -12,7 +12,7 @@ import subway.repository.LineRepository;
 import subway.repository.StationRepository;
 import subway.service.PathCheckService;
 
-public class Initializer { // TODO 굳이 예외처리 기능 넣지 않음. 다 하고 시간 남으면 초기화 단계에서도 예외 기능 만들기.
+public class Initializer {
     public static void init() {
         putStations();
         putLines();

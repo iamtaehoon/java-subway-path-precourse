@@ -1,5 +1,7 @@
 package subway.controller;
 
+import static subway.Constant.*;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -75,7 +77,7 @@ public class PathCheckController {
         try {
             mainCode = MainCode.find(inputView.enterMainFunction());
             if (mainCode == MainCode.QUIT) {
-                System.exit(0);
+                System.exit(NORMAL_END_CODE);
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());

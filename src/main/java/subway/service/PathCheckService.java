@@ -16,7 +16,7 @@ import subway.repository.StationRepository;
 public class PathCheckService {
     private static DijkstraShortestPath distanceShortestPath;
     private static DijkstraShortestPath timeShortestPath;
-    List<String> shortestPathStationNames = new LinkedList<>();
+    private List<String> shortestPathStationNames = new LinkedList<>();
 
     public Station putStartStation(String startStationName) {
         return StationRepository.find(startStationName);
@@ -33,6 +33,7 @@ public class PathCheckService {
         distanceShortestPath = Dijkstra.makeDijkstra(RouteCode.MIN_DISTANCE);
         timeShortestPath = Dijkstra.makeDijkstra(RouteCode.MIN_TIME);
     }
+
     public List<String> findShortestPath(Station startStation, Station endStation, RouteCode routeCode) {
         if (routeCode == RouteCode.MIN_DISTANCE) {
             shortestPathStationNames.addAll(
@@ -49,10 +50,7 @@ public class PathCheckService {
         int timeSum = 0;
         int distanceSum = 0;
         String startStationName = shortestPathStationNames.get(0);
-        for (String stationName : shortestPathStationNames) {
-            if (stationName.equals(startStationName)) {
-                continue;
-            }
+        for (String stationName : shortestPathStationNames.subList(1,shortestPathStationNames.size())) {
             timeSum += Dijkstra.timeGraph.getEdgeWeight(Dijkstra.timeGraph.getEdge(startStationName,stationName));
             distanceSum += Dijkstra.distanceGraph.getEdgeWeight(Dijkstra.distanceGraph.getEdge(startStationName,stationName));
             startStationName = stationName;
