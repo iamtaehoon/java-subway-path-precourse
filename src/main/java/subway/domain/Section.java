@@ -23,11 +23,13 @@ public class Section {
         throw new IllegalArgumentException(NO_CODE_ERROR);
     }
 
-    public double getTime() {
-        return time;
-    }
-
-    public int getDistance() {
-        return distance;
+    public double getValue(RouteCode routeCode) {
+        if (routeCode == RouteCode.MIN_DISTANCE) {
+            return distance;
+        }
+        if (routeCode == RouteCode.MIN_TIME) {
+            return time;
+        }
+        throw new IllegalArgumentException(LOGIC_ERROR);
     }
 }
