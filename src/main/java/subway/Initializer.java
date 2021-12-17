@@ -42,7 +42,7 @@ public class Initializer { // TODO 굳이 예외처리 기능 넣지 않음. 다
 
     private static void putStations() {
         ArrayList<String> stationNames = new ArrayList<>(
-            Arrays.asList("교대역", "강남역", "역삼역", "남부터미널역", "양재역", "양지시민의숲역", "매봉역"));
+            Arrays.asList("교대역", "강남역", "역삼역", "남부터미널역", "양재역", "양재시민의숲역", "매봉역"));
         stationNames.stream().forEach(stationName -> StationRepository.addStation(new Station(stationName)));
     }
 }

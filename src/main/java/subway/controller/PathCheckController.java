@@ -25,12 +25,15 @@ public class PathCheckController {
         if (mainCode == MainCode.QUIT) {
             System.out.println("종료 로직 만들어야 함.");
         }
-        determineRouteCriteria();
+        DijkstraShortestPath dijkstraShortestPath = determineRouteCriteria();
 
     }
 
     private DijkstraShortestPath determineRouteCriteria() {
         RouteCode routeCode = enterRouteCriteria();
+        if (routeCode == RouteCode.BACK) {
+            System.out.println("종료 로직 만들어야 함.");
+        }
         return routeCode.makeDijkstra();
     }
 
