@@ -6,8 +6,11 @@ import subway.controller.PathCheckController;
 
 public class Application {
     public static void main(String[] args) {
+        boolean isContinue = true;
         final Scanner scanner = new Scanner(System.in);
         PathCheckController pathCheckController = new PathCheckController(scanner);
-        pathCheckController.run();
+        while (isContinue) {
+            isContinue = pathCheckController.run();
+        }
     }
 }

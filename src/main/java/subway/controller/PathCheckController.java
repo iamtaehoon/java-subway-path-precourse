@@ -1,7 +1,5 @@
 package subway.controller;
 
-import static subway.Constant.*;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,19 +22,24 @@ public class PathCheckController {
         inputView = new InputView(scanner);
     }
 
-    public void run() {
-        while (mainCode != MainCode.QUIT) {
-            determineMainFunction();
-            RouteCode routeCode = determineRouteCriteria();
-            if (routeCode == RouteCode.BACK) {
-                run();
-                return;
-            }
-            List<String> stationsNameInShortestPath = findShortestPath(routeCode);
-            Result result = pathCheckService.calculateResult(stationsNameInShortestPath);
-            OutputView.showResult(result);
-            stationsNameInShortestPath.clear();
+    public boolean run() {
+        determineMainFunction();
+        if (mainCode == MainCode.QUIT) {
+            return false;
         }
+        RouteCode routeCode = determineRouteCriteria();
+        if (routeCode == RouteCode.BACK) {
+            return true;
+        }
+        executeFunction(routeCode);
+        return true;
+    }
+
+    private void executeFunction(RouteCode routeCode) {
+        List<String> stationsNameInShortestPath = findShortestPath(routeCode);
+        Result result = pathCheckService.calculateResult(stationsNameInShortestPath);
+        OutputView.showResult(result);
+        stationsNameInShortestPath.clear();
     }
 
     private List<String> findShortestPath(RouteCode routeCode) {
@@ -76,9 +79,6 @@ public class PathCheckController {
     private void determineMainFunction() {
         try {
             mainCode = MainCode.find(inputView.enterMainFunction());
-            if (mainCode == MainCode.QUIT) {
-                System.exit(NORMAL_END_CODE);
-            }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             determineMainFunction();
