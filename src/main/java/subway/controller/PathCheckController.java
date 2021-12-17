@@ -1,8 +1,12 @@
 package subway.controller;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultWeightedEdge;
 
 import subway.Initializer;
 import subway.code.MainCode;
@@ -30,7 +34,16 @@ public class PathCheckController {
         DijkstraShortestPath dijkstraShortestPath = determineRouteCriteria();
         Station startStation = enterStartStation();
         Station endStation = enterEndStation(startStation);
+        List<String> shortestPathStationNames = new LinkedList<>();
+        shortestPathStationNames.addAll(dijkstraShortestPath.getPath(startStation.getName(), endStation.getName()).getVertexList());
+        for (String stationName : shortestPathStationNames) {
+            System.out.println(stationName);
+        }
 
+        double pathWeight = dijkstraShortestPath.getPathWeight(startStation.getName(), endStation.getName());
+        System.out.println(pathWeight);
+        // double weight = dijkstraShortestPath.getPath(startStation.getName(), endStation.getName()).getWeight();
+        // System.out.println(weight);
     }
 
     private Station enterEndStation(Station startStation) {

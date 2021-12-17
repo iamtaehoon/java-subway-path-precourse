@@ -18,7 +18,7 @@ public class Section {
             return distance;
         }
         if (routeCode == RouteCode.MIN_TIME) {
-            return distance;
+            return time;
         }
         throw new IllegalArgumentException(NO_CODE_ERROR);
     }
