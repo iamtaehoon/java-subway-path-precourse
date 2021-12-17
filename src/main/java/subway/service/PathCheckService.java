@@ -14,8 +14,8 @@ import subway.domain.Station;
 import subway.repository.StationRepository;
 
 public class PathCheckService {
-    DijkstraShortestPath distanceShortestPath;
-    DijkstraShortestPath timeShortestPath;
+    private static DijkstraShortestPath distanceShortestPath;
+    private static DijkstraShortestPath timeShortestPath;
     List<String> shortestPathStationNames = new LinkedList<>();
 
     public Station putStartStation(String startStationName) {
@@ -29,7 +29,7 @@ public class PathCheckService {
         return StationRepository.find(endStationName);
     }
 
-    public void makeDijkstra() {
+    public static void makeDijkstra() {
         distanceShortestPath = Dijkstra.makeDijkstra(RouteCode.MIN_DISTANCE);
         timeShortestPath = Dijkstra.makeDijkstra(RouteCode.MIN_TIME);
     }

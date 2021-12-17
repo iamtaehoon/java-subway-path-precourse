@@ -20,12 +20,9 @@ import subway.view.InputView;
 import subway.view.OutputView;
 
 public class PathCheckController {
-    MainCode mainCode;
+    private MainCode mainCode;
     private PathCheckService pathCheckService = new PathCheckService();
     private InputView inputView;
-    private int distanceSum = 0;
-    private int timeSum = 0;
-
 
     public PathCheckController(Scanner scanner) {
         Initializer.init();
@@ -33,20 +30,21 @@ public class PathCheckController {
     }
 
     public void run() {
-        enterMainFunction();
+        determineMainFunction();
         if (mainCode == MainCode.QUIT) {
-            System.out.println("종료 로직 만들어야 함.");
+            System.exit(0);
         }
         RouteCode routeCode = determineRouteCriteria();
-        pathCheckService.makeDijkstra();
+        List<String> stationsNameInShortestPath = findShortestPath(routeCode);
+        Result result = pathCheckService.calculate(stationsNameInShortestPath);
+        OutputView.showResult(result);
+    }
 
+    private List<String> findShortestPath(RouteCode routeCode) {
         Station startStation = enterStartStation();
         Station endStation = enterEndStation(startStation);
         List<String> stationsNameInShortestPath = pathCheckService.findShortestPath(startStation, endStation, routeCode);
-
-        Result result = pathCheckService.calculate(stationsNameInShortestPath);
-        OutputView.showResult(result);
-
+        return stationsNameInShortestPath;
     }
 
     private Station enterEndStation(Station startStation) {
@@ -76,12 +74,12 @@ public class PathCheckController {
         }
     }
 
-    private void enterMainFunction() {
+    private void determineMainFunction() {
         try {
             mainCode = MainCode.find(inputView.enterMainFunction());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            enterMainFunction();
+            determineMainFunction();
         }
     }
 }
