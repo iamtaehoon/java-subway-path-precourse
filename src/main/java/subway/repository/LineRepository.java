@@ -1,5 +1,7 @@
 package subway.repository;
 
+import static subway.ErrorMessage.*;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,5 +26,12 @@ public class LineRepository {
 
     public static void deleteAll() {
         lines.clear();
+    }
+
+    public static Line find(String name) {
+        return lines.stream()
+            .filter(line -> line.getName().equals(name))
+            .findAny()
+            .orElseThrow(() -> new IllegalArgumentException(NO_OBJECT_ERROR));
     }
 }
