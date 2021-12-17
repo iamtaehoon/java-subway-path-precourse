@@ -22,4 +22,12 @@ public class Section {
         }
         throw new IllegalArgumentException(NO_CODE_ERROR);
     }
+
+    public double getTime() {
+        return time;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
 }

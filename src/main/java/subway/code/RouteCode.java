@@ -35,23 +35,4 @@ public enum RouteCode {
             .orElseThrow(() -> new IllegalArgumentException(NO_CODE_ERROR));
 
     }
-
-    public DijkstraShortestPath makeDijkstra() {
-        WeightedMultigraph<String, DefaultWeightedEdge> graph
-            = new WeightedMultigraph(DefaultWeightedEdge.class);
-        StationRepository.stations().stream().forEach(station -> graph.addVertex(station.getName()));
-
-        // graph.setEdgeWeight(graph.addEdge("이름1","이름2"),0); //Distance, Weight는 코드를 보고 결정할거임.
-        LineRepository.lines();
-        for (Line line : LineRepository.lines()) {
-            for (ConnectInfo connectInfo : line.getConnectInfos()) {
-                String startStationName = connectInfo.getStartStationName();
-                String arriveStationName = connectInfo.getArriveStationName();
-                Section section = connectInfo.getSection();
-                graph.setEdgeWeight(graph.addEdge(startStationName,arriveStationName), section.getAccordingToStandard(this));
-            }
-        }
-        return new DijkstraShortestPath(graph);
-    }
-
 }
