@@ -31,10 +31,10 @@ public class PathCheckController {
 
     public void run() {
         determineMainFunction();
-        if (mainCode == MainCode.QUIT) {
-            System.exit(0);
-        }
         RouteCode routeCode = determineRouteCriteria();
+        if (routeCode == RouteCode.BACK) {
+            run();
+        }
         List<String> stationsNameInShortestPath = findShortestPath(routeCode);
         Result result = pathCheckService.calculate(stationsNameInShortestPath);
         OutputView.showResult(result);
@@ -77,6 +77,9 @@ public class PathCheckController {
     private void determineMainFunction() {
         try {
             mainCode = MainCode.find(inputView.enterMainFunction());
+            if (mainCode == MainCode.QUIT) {
+                System.exit(0);
+            }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             determineMainFunction();
