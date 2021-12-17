@@ -28,22 +28,30 @@ public class Dijkstra {
     }
 
     private static WeightedMultigraph<String, DefaultWeightedEdge> makeUseThis(RouteCode routeCode) {
-        WeightedMultigraph<String, DefaultWeightedEdge> graph = new WeightedMultigraph(DefaultWeightedEdge.class);
-        StationRepository.stations().stream().forEach(station -> graph.addVertex(station.getName()));
-        LineRepository.lines();
-        for (Line line : LineRepository.lines()) {
-            for (ConnectInfo connectInfo : line.getConnectInfos()) {
-                String startStationName = connectInfo.getStartStationName();
-                String arriveStationName = connectInfo.getArriveStationName();
-                Section section = connectInfo.getSection();
-                graph.setEdgeWeight(graph.addEdge(startStationName,arriveStationName), section.getValue(routeCode));
-            }
-        }
+        WeightedMultigraph<String, DefaultWeightedEdge> graph = makeGraphUsingRouteCode(routeCode);
+        saveGraph(routeCode, graph);
+        return graph;
+    }
+
+    private static void saveGraph(RouteCode routeCode, WeightedMultigraph<String, DefaultWeightedEdge> graph) {
         if (routeCode == RouteCode.MIN_DISTANCE) {
             distanceGraph = graph;
         }
         if (routeCode == RouteCode.MIN_TIME) {
             timeGraph = graph;
+        }
+    }
+
+    private static WeightedMultigraph<String, DefaultWeightedEdge> makeGraphUsingRouteCode(RouteCode routeCode) {
+        WeightedMultigraph<String, DefaultWeightedEdge> graph = new WeightedMultigraph(DefaultWeightedEdge.class);
+        StationRepository.stations().stream().forEach(station -> graph.addVertex(station.getName()));
+        for (Line line : LineRepository.lines()) {
+            for (ConnectInfo connectInfo : line.getConnectInfos()) {
+                String startStationName = connectInfo.getStartStationName();
+                String arriveStationName = connectInfo.getArriveStationName();
+                Section section = connectInfo.getSection();
+                graph.setEdgeWeight(graph.addEdge(startStationName, arriveStationName), section.getValue(routeCode));
+            }
         }
         return graph;
     }
